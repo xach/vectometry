@@ -62,17 +62,24 @@
                              (ceiling (y p)))))
          ,@body))))
 
-(defun top-left (box)
-  (point (xmin box) (ymax box)))
 
-(defun top-right (box)
-  (maxpoint box))
+(defgeneric top-left (object)
+  (:method (object)
+    (let ((box (bounding-box object)))
+      (point (xmin box) (ymax box)))))
 
-(defun bottom-left (box)
-  (minpoint box))
+(defgeneric top-right (object)
+  (:method (object)
+    (maxpoint (bounding-box object))))
 
-(defun bottom-right (box)
-  (point (xmax box) (ymin box)))
+(defgeneric bottom-left (object)
+  (:method (object)
+    (minpoint (bounding-box object))))
+
+(defgeneric bottom-right (object)
+  (:method (object)
+    (let ((box (bounding-box object)))
+      (point (xmax box) (ymin box)))))
 
 (defun set-gradient-fill (p1 c1 p2 c2
                           &key (extend-start t) (extend-end t)
